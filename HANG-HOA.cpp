@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-struct HangHoa {
+
+struct HangHoa 
+{
     char maHang[15];
     char tenHang[50];
     char loaiHang[30];
@@ -10,6 +12,165 @@ struct HangHoa {
 };
 struct HangHoa ds[100];
 int soLuongHang = 0;
+void hienThiMenu();
+void themHangHoa();
+void hienThiDanhSach();
+void timKiemHangHoa();
+void capNhatHangHoa();
+void xoaHangHoa();
+void thongKeTonKho();
+void sapXepTheoGiaBan();
+void canhBaoTonKho();
+
+int main() {
+    int luaChon;
+
+    printf("==============================================\n");
+    printf("   CHUONG TRINH QUAN LY HANG HOA\n");
+    printf("==============================================\n");
+
+    do {
+        hienThiMenu();
+        printf("Moi ban chon chuc nang: ");
+        if (scanf("%d", &luaChon) != 1) {
+            printf("  >> Vui long nhap mot so!\n");
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF) { }
+            continue;
+        }
+
+        switch (luaChon) {
+            case 1: themHangHoa(); break;
+            case 2: hienThiDanhSach(); break;
+            case 3: timKiemHangHoa(); break;
+            case 4: capNhatHangHoa(); break;
+            case 5: xoaHangHoa(); break;
+            case 6: thongKeTonKho(); break;
+            case 7: sapXepTheoGiaBan(); break;
+            case 8: canhBaoTonKho(); break;
+            case 0: printf("\nTam biet!\n"); break;
+            default: printf("  >> Lua chon khong hop le!\n");
+        }
+    } while (luaChon != 0);
+
+    return 0;
+}
+
+void hienThiMenu() {
+    printf("\n========== MENU QUAN LY HANG HOA ==========\n");
+    printf("1. Them hang hoa moi\n");
+    printf("2. Hien thi danh sach hang hoa\n");
+    printf("3. Tim kiem hang hoa\n");
+    printf("4. Cap nhat hang hoa\n");
+    printf("5. Xoa hang hoa\n");
+    printf("6. Thong ke ton kho\n");
+    printf("7. Sap xep theo gia ban (tang dan)\n");
+    printf("8. Canh bao hang sap het\n");
+    printf("0. Thoat\n");
+    printf("==========================================\n");
+}
+
+void themHangHoa() {
+    int n, i, k;
+
+    if (soLuongHang >= 100) {
+        printf("Danh sach da day!\n");
+        return;
+    }
+
+    printf("Nhap so luong hang can them: ");
+    scanf("%d", &n);
+    getchar();
+
+    for (i = 0; i < n; i++) {
+        if (soLuongHang >= 100) {
+            printf("Danh sach da day!\n");
+            break;
+        }
+
+        printf("\n--- Nhap hang thu %d ---\n", i + 1);
+
+        while (1) {
+            int trung = 0;
+            printf("Ma hang: ");
+            scanf("%14s", ds[soLuongHang].maHang);
+            getchar();
+            for (k = 0; k < soLuongHang; k++) {
+                if (strcmp(ds[k].maHang,
+                           ds[soLuongHang].maHang) == 0) {
+                    trung = 1;
+                    break;
+                }
+            }
+            if (trung) {
+                printf("  >> Ma hang da ton tai! Nhap lai.\n");
+                continue;
+            }
+            break;
+        }
+
+        printf("Ten hang: ");
+        fgets(ds[soLuongHang].tenHang, 50, stdin);
+        ds[soLuongHang].tenHang[
+            strcspn(ds[soLuongHang].tenHang, "\n")] = '\0';
+
+        printf("Loai hang: ");
+        fgets(ds[soLuongHang].loaiHang, 30, stdin);
+        ds[soLuongHang].loaiHang[
+            strcspn(ds[soLuongHang].loaiHang, "\n")] = '\0';
+
+        do {
+            printf("Gia nhap: ");
+            scanf("%f", &ds[soLuongHang].giaNhap);
+            getchar();
+            if (ds[soLuongHang].giaNhap < 0) {
+                printf("  >> Gia nhap khong duoc am! Nhap lai.\n");
+            }
+        } while (ds[soLuongHang].giaNhap < 0);
+
+        do {
+            printf("Gia ban: ");
+            scanf("%f", &ds[soLuongHang].giaBan);
+            getchar();
+            if (ds[soLuongHang].giaBan < 0) {
+                printf("  >> Gia ban khong duoc am! Nhap lai.\n");
+            }
+        } while (ds[soLuongHang].giaBan < 0);
+
+        do {
+            printf("So luong: ");
+            scanf("%d", &ds[soLuongHang].soLuong);
+            getchar();
+            if (ds[soLuongHang].soLuong < 0) {
+                printf("  >> So luong khong duoc am! Nhap lai.\n");
+            }
+        } while (ds[soLuongHang].soLuong < 0);
+
+        soLuongHang++;
+        printf("Them hang hoa thanh cong!\n");
+    }
+}
+
+void hienThiDanhSach() {
+    int i;
+
+    if (soLuongHang == 0) {
+        printf("\nDanh sach hang hoa rong!\n");
+        return;
+    }
+
+    printf("\n========== DANH SACH HANG HOA (%d mat hang) ==========\n",
+           soLuongHang);
+    for (i = 0; i < soLuongHang; i++) {
+        printf("\nMa hang: %s\n", ds[i].maHang);
+        printf("Ten hang: %s\n", ds[i].tenHang);
+        printf("Loai hang: %s\n", ds[i].loaiHang);
+        printf("Gia nhap: %.2f\n", ds[i].giaNhap);
+        printf("Gia ban: %.2f\n", ds[i].giaBan);
+        printf("So luong: %d\n", ds[i].soLuong);
+        printf("--------------------------------------\n");
+    }
+}
 
 void timKiemHangHoa() {
     char tuKhoa[50];
@@ -156,4 +317,3 @@ void canhBaoTonKho() {
         printf("Khong co mat hang nao sap het!\n");
     }
 }
-
