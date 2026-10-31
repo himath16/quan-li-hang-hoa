@@ -1,6 +1,6 @@
 Quản lí hàng hoá
 Phân chia công việc:
- -Hoàng Huy:
+-Hoàng Huy:
   + Chốt đề tài, dữ liệu và quy tắc code.
   + Tạo Github repository, README và .gitignore.
   + Thiết kế struct HangHoa, mảng và biến đếm.
